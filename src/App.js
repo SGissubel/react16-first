@@ -8,7 +8,8 @@ class App extends Component {
       { name: 'Steven', age: 33 },
       { name: 'Manuel', age: 44 },
       { name: 'Buttbutt', age: 67 }
-    ]
+    ],
+    showPersons: false
   }
 
   switchNameHandler = ( newName ) => {
@@ -31,23 +32,50 @@ class App extends Component {
     })
   }
 
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState(
+      {showPersons: !doesShow}
+    )
+  }
+
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
+
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          <Person 
+            name={this.state.persons[0].name} 
+            age={this.state.persons[0].age}/>
+          <Person 
+            name={this.state.persons[1].name} 
+            age={this.state.persons[1].age}
+            click={this.switchNameHandler.bind(this, 'Georgia O\'Keiff')}/>
+          <Person 
+            name={this.state.persons[2].name} 
+            age={this.state.persons[2].age}
+            changed={this.nameChangedHandler}>I got hobbies Yall</Person>  
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1>React App</h1>
-        <button onClick={() => this.switchNameHandler('Nigeria Kantucky')}>Switch Names</button>
-        <Person 
-          name={this.state.persons[0].name} 
-          age={this.state.persons[0].age}/>
-        <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'Georgia O\'Keiff')}/>
-        <Person 
-          name={this.state.persons[2].name} 
-          age={this.state.persons[2].age}
-          changed={this.nameChangedHandler}>I got hobbies Yall</Person>
-        
+        <button
+          style={style}
+          onClick={this.togglePersonsHandler}
+          >Switch Names</button>
+        {persons}
       </div>
     );
   }
