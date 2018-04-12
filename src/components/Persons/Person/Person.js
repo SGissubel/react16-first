@@ -3,6 +3,18 @@ import React, { Component } from 'react';
 import classes from './Person.css';
 
 class Person extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[person] inside constructor', props);
+  }
+
+  componentWillMount() {
+    console.log('person - inside componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('person - inside componentDidMount')
+  }
   render () {
     return (
       <div className={classes.Person}>
