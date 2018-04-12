@@ -3,6 +3,10 @@ import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import Aux from '../hoc/Aux';
+// import WithClass from '../hoc/WithClass';
+import withClass from '../hoc/WithClass';
+
 
 class App extends PureComponent {
   constructor(props) {
@@ -37,7 +41,8 @@ class App extends PureComponent {
       { id: 'asdf3', name: 'Manuel', age: 44 },
       { id: '32rasdf', name: 'Buttbutt', age: 67 }
     ],
-    showPersons: false
+    showPersons: false,
+    toggleClicked: 0
   }
 
 
@@ -69,9 +74,12 @@ class App extends PureComponent {
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState( 
-      {showPersons: !doesShow}
-    )
+    this.setState( (prevState, props) => {
+      return {
+        showPersons: !doesShow,
+        toggleClicked: prevState.toggleClicked + 1
+      }
+    } );
   }
 
   render() {
@@ -88,16 +96,28 @@ class App extends PureComponent {
     
 
     return (
-      <div className={classes.App}>
-      <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
+      <Aux>
+        <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
         <Cockpit
           showPersons={this.state.showPersons}
           persons={this.state.persons} 
           click={this.togglePersonsHandler}/>
         {persons}
-      </div>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
+
+
+
+
+    // <WithClass classes={classes.App}>
+    //   <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
+    //     <Cockpit
+    //       showPersons={this.state.showPersons}
+    //       persons={this.state.persons} 
+    //       click={this.togglePersonsHandler}/>
+    //     {persons}
+    //   </WithClass>
